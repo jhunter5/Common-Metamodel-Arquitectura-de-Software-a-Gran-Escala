@@ -16,9 +16,6 @@ Component:
     'component' type=ComponentType name=ID
 ;
 
-Connectable:
-    Component | HardwareDevice | Vehicle
-;
 
 Connector:
     'connector' type=ConnectorType fromComponent=[Component] '->' toComponent=[Component]
