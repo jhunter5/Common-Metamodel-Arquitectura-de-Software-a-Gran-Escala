@@ -17,6 +17,7 @@ sos:
         component backend RealTime_Processing
         component backend Storage_Manager
         component apiGateway Information_Transmission
+        component backend ContingencyLink
 
         component frontend WebApp
         component proxy Proxy
@@ -28,6 +29,7 @@ sos:
         component database Vessels_DB
         component database Traceability_DB
         component database Storage_DB
+        component database ContingencyLink_DB
 
         connector db_connector Route_Manager -> Routes_DB
         connector db_connector Security_System -> Security_DB
@@ -35,6 +37,7 @@ sos:
         connector db_connector Vessel_Manager -> Vessels_DB
         connector db_connector Traceability_Manager -> Traceability_DB
         connector db_connector Storage_Manager -> Storage_DB
+        connector db_connector ContingencyLink -> ContingencyLink_DB
 
         connector RESTful Vessel_1 -> IoT_Gateway
         connector MQTT IoT_Gateway -> RealTime_Processing
@@ -46,6 +49,8 @@ sos:
         connector RESTful Information_Transmission -> Traceability_Manager
         connector RESTful Information_Transmission -> Storage_Manager
         connector RESTful Information_Transmission -> RealTime_Processing
+        connector RESTful Information_Transmission -> ContingencyLink
+
 
         connector RESTful Information_Transmission -> Interface
         connector GraphQL Information_Transmission -> Interface      
