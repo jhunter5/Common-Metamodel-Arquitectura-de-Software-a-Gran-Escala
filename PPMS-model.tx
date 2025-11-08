@@ -31,6 +31,7 @@ subsystem: PPMS {
     component externalService national_coordination_system
     component externalService caribbean_port_service
     component externalService road_transportation_system
+    component externalService fluvial_transportation_system
 
     
     vehicle crane {
@@ -71,7 +72,9 @@ subsystem: PPMS {
     connector RESTful rail_transportation_system -> API_Gateway
     connector RESTful national_coordination_system -> API_Gateway
     connector RESTful caribbean_port_service -> API_Gateway
+    connector RESTful fluvial_transportation_system -> API_Gateway
     connector GraphQL road_transportation_system -> API_Gateway
+
 
     connector RESTful API_Gateway -> load_balancer
 
