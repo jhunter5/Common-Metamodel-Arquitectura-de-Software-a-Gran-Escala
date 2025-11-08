@@ -12,16 +12,21 @@ subsystem: CPMS
     component backend iot_ms
     component backend audit_manager_ms  
 
-    component database ships_management_db_slave
+    # --- Bases con CQRS (master/slave) ---
     component database ships_management_db_master
-    component database personnel_management_db_slave
-    component database personnel_management_db_master
-    component database cargo_and_container_management_db_slave
+    component database ships_management_db_slave
+
     component database cargo_and_container_management_db_master
-    component database infrastructure_management_db_slave
-    component database infrastructure_management_db_master
-    component database iot_noSQL_db
-    component database iot_SQL_db
+    component database cargo_and_container_management_db_slave
+
+    component database iot_noSQL_db_master
+    component database iot_noSQL_db_slave
+    component database iot_SQL_db_master
+    component database iot_SQL_db_slave
+
+    # --- Bases sin CQRS (una sola) ---
+    component database personnel_management_db
+    component database infrastructure_management_db
     component database audit_manager_db
 
     component eventBus request_channel
@@ -55,7 +60,7 @@ subsystem: CPMS
     connector RESTful API_Gateway -> personnel_management_ms
     connector RESTful API_Gateway -> cargo_and_container_management_ms
     connector RESTful API_Gateway -> infrastructure_management_ms
-    
+	
     connector RESTful ship_management_ms -> personnel_management_ms
     connector RESTful ship_management_ms -> cargo_and_container_management_ms
     connector RESTful ship_management_ms -> infrastructure_management_ms
@@ -94,16 +99,19 @@ subsystem: CPMS
     connector SDK iot_ms -> audit_channel
     connector SDK audit_manager_ms -> audit_channel
 
-    connector db_connector request_manager_ms -> request_manager_db
+    # --- Conectores DB: CQRS solo en buques, carga y IoT ---
     connector db_connector ship_management_ms -> ships_management_db_master
-    connector db_connector personnel_management_ms -> personnel_management_db_master
-    connector db_connector cargo_and_container_management_ms -> cargo_and_container_management_db_master
-    connector db_connector infrastructure_management_ms -> infrastructure_management_db_master
-    connector db_connector iot_ms -> iot_noSQL_db
-    connector db_connector iot_ms -> iot_SQL_db
-    connector db_connector audit_manager_ms -> audit_manager_db
-
     connector db_connector ship_management_ms -> ships_management_db_slave
-    connector db_connector personnel_management_ms -> personnel_management_db_slave
+
+    connector db_connector cargo_and_container_management_ms -> cargo_and_container_management_db_master
     connector db_connector cargo_and_container_management_ms -> cargo_and_container_management_db_slave
-    connector db_connector infrastructure_management_ms -> infrastructure_management_db_slave
+
+    connector db_connector iot_ms -> iot_noSQL_db_master
+    connector db_connector iot_ms -> iot_noSQL_db_slave
+    connector db_connector iot_ms -> iot_SQL_db_master
+    connector db_connector iot_ms -> iot_SQL_db_slave
+
+    # --- Conectores DB: servicios sin CQRS ---
+    connector db_connector personnel_management_ms -> personnel_management_db
+    connector db_connector infrastructure_management_ms -> infrastructure_management_db
+    connector db_connector audit_manager_ms -> audit_manager_db
