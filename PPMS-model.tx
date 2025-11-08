@@ -1,7 +1,12 @@
 sos:
-subsystem: PPMS
+subsystem: PPMS { 
+
     component frontend web_service
+
     component apiGateway API_Gateway
+
+    component loadBalancer load_balancer
+
     component backend reports_management_service
     component backend cargo_management_service
     component backend personal_management_service
@@ -10,6 +15,7 @@ subsystem: PPMS
     component backend storage_management_service
     component backend bunkering_management_service
     component backend traffic_control_service
+
     component database reports_db
     component database cargo_db
     component database personal_management_db
@@ -18,26 +24,80 @@ subsystem: PPMS
     component database storage_management_db
     component database bunkering_management_db
     component database traffic_control_db
+    component database telemetry_db
 
-    hardware IoT ship_location
+
+    component externalService rail_transportation_system
+    component externalService national_coordination_system
+    component externalService caribbean_port_service
+    component externalService road_transportation_system
+
+    
+    vehicle crane {
+        type grua
+        hardware weightSensor crane_weight_sensor
+    }
+
+    vehicle ship {
+        type ship
+        hardware GPS ship_location
+    }
+
+    component backend logger
+    
+
+    hardware IoT control_tower_iot
+    hardware IoT crane_iot
+    hardware IoT gas_station_iot
+
+    hardware gas_station gas_station
+    hardware control_tower control_tower
+    hardware control_tower control_tower_2
+
     
     
-    connector WebSocket traffic_control_service  -> ship_location
+    connector MQTT traffic_control_service  -> control_tower_iot
     connector RESTful web_service -> API_Gateway
-    connector RESTful API_Gateway -> reports_management_service
-    connector RESTful API_Gateway -> cargo_management_service
-    connector RESTful API_Gateway -> personal_management_service
-    connector RESTful API_Gateway -> ship_control_service
-    connector RESTful API_Gateway -> port_operation_service
-    connector RESTful API_Gateway -> storage_management_service
-    connector RESTful API_Gateway -> bunkering_management_service
-    connector RESTful API_Gateway -> traffic_control_service
-    connector db_connector reports_management_service -> reports_db
-    connector db_connector cargo_management_service -> cargo_db
-    connector db_connector personal_management_service -> personal_management_db
-    connector db_connector ship_control_service -> ship_control_db
-    connector db_connector port_operation_service -> port_operation_db
-    connector db_connector storage_management_service -> storage_management_db
-    connector db_connector bunkering_management_service -> bunkering_management_db
-    connector db_connector traffic_control_service -> traffic_control_db
+    connector RESTful load_balancer -> reports_management_service
+    connector RESTful load_balancer -> cargo_management_service
+    connector RESTful load_balancer -> personal_management_service
+    connector RESTful load_balancer -> ship_control_service
+    connector RESTful load_balancer -> port_operation_service
+    connector RESTful load_balancer -> storage_management_service
+    connector RESTful load_balancer -> bunkering_management_service
+    connector RESTful load_balancer -> traffic_control_service
+    connector RESTful load_balancer -> logger
+
+    connector RESTful rail_transportation_system -> API_Gateway
+    connector RESTful national_coordination_system -> API_Gateway
+    connector RESTful caribbean_port_service -> API_Gateway
+    connector GraphQL road_transportation_system -> API_Gateway
+
+    connector RESTful API_Gateway -> load_balancer
+
+    connector MQTT port_operation_service -> crane_iot
+    connector MQTT bunkering_management_service -> gas_station_iot
+
+    connector MQTT control_tower_iot -> control_tower
+    connector MQTT control_tower_iot -> control_tower_2
+
+
+    connector dbConnector reports_management_service -> reports_db
+    connector dbConnector cargo_management_service -> cargo_db
+    connector dbConnector personal_management_service -> personal_management_db
+    connector dbConnector ship_control_service -> ship_control_db
+    connector dbConnector port_operation_service -> port_operation_db
+    connector dbConnector storage_management_service -> storage_management_db
+    connector dbConnector bunkering_management_service -> bunkering_management_db
+    connector dbConnector traffic_control_service -> traffic_control_db
+    connector dbConnector logger -> telemetry_db
+
+    connector MQTT crane_iot -> crane
+    connector MQTT gas_station_iot -> gas_station
+
+    connector Satellite ship -> control_tower
+    connector Satellite ship -> control_tower_2
+    
+}
+
     
