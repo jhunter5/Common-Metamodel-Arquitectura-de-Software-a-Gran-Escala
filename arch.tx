@@ -9,7 +9,7 @@ SubSystem:
 ;
 
 Element:
-    Connectable | Connector | HardwareDevice | Vehicle
+    Connectable | Connector | HardwareDevice | Vehicle 
 ;
 
 Component:
@@ -26,11 +26,11 @@ Connector:
 
 ComponentType:
     'frontend' | 'backend' | 'database' | 'channel' | 'loadBalancer' | 'fileStorage' | 'apiGateway'
-    | 'sensor' | 'vehicle' | 'contenedor' | 'eventBus' | 'proxy' | 'interface' | 'queue'
+    | 'sensor' | 'vehicle' | 'contenedor' | 'eventBus' | 'proxy' | 'interface' | 'queue' | 'externalService'
 ;
 
 ConnectorType:
-    'RESTful' | 'dbConnector' | 'gRPC' | 'MQTT' | 'SDK' | 'WebSocket' | 'amqp'  | 'CoAP' | 'gsm' | 'sqs' | 'GraphQL' | 'TCP/IP' | 'Bus'
+    'RESTful' | 'dbConnector' | 'gRPC' | 'MQTT' | 'SDK' | 'WebSocket' | 'amqp'  | 'CoAP' | 'gsm' | 'sqs' | 'GraphQL' | 'TCP/IP' | 'Bus' | 'Satellite'
 ;
 
 HardwareDevice:
@@ -38,7 +38,7 @@ HardwareDevice:
 ;
 
 HardwareType:
-    'IoT' | 'radio' | 'weightSensor' | 'velocitySensor' | 'sensor_de_distancia' | 'weather_station' | 'entry_point' | 'sensor_de_caudal' | 'GPS' | 'black_box'
+    'IoT' | 'radio' | 'weightSensor' | 'velocitySensor' | 'sensor_de_distancia' | 'weather_station' | 'entry_point' | 'sensor_de_caudal' | 'GPS' | 'gas_station' | 'control_tower'
 ;
 
 Vehicle:
@@ -49,5 +49,5 @@ Vehicle:
 ;
 
 VehicleType:
-    'truck' | 'tren' | 'vessel' | 'grua'
+    'truck' | 'tren' | 'vessel' | 'grua' | 'ship'
 ;
